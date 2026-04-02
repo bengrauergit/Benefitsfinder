@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BenefitsFinder — Setup & Deployment Guide</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 font-sans max-w-3xl mx-auto px-4 py-12">
+
+  <div class="bg-white rounded-2xl shadow-lg p-8">
+
+    <div class="flex items-center gap-3 mb-8">
+      <div class="w-10 h-10 bg-green-800 rounded-full flex items-center justify-center text-white font-bold text-lg">$</div>
+      <div>
+        <h1 class="text-2xl font-extrabold text-gray-800">BenefitsFinder Australia</h1>
+        <p class="text-gray-500 text-sm">Setup & Deployment Guide — Step by Step</p>
+      </div>
+    </div>
+
+    <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-8">
+      <p class="text-blue-800 font-medium text-sm">📋 What you're setting up:</p>
+      <ul class="text-blue-700 text-sm mt-2 space-y-1">
+        <li>✅ <strong>Supabase</strong> — free database to store user profiles and claim tracking</li>
+        <li>✅ <strong>Vercel</strong> — free hosting to put your website live on the internet</li>
+        <li>✅ <strong>GitHub</strong> — free code storage (required by Vercel) — takes 2 minutes</li>
+      </ul>
+      <p class="text-blue-700 text-sm mt-2">⏱️ Total time: approximately 20–30 minutes</p>
+    </div>
+
+    <!-- PHASE 1 -->
+    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+      <span class="w-7 h-7 bg-green-800 text-white rounded-full flex items-center justify-center text-sm font-bold">1</span>
+      Set Up Your Database (Supabase)
+    </h2>
+    <div class="space-y-4 mb-10">
+
+      <div class="border rounded-xl p-4">
+        <h3 class="font-bold text-gray-700 mb-2">Step 1 — Create a free Supabase account</h3>
+        <ol class="text-sm text-gray-600 space-y-2 list-decimal list-inside">
+          <li>Open a new browser tab and go to <a href="https://supabase.com" target="_blank" class="text-blue-600 underline font-medium">supabase.com</a></li>
+          <li>Click the green <strong>"Start your project"</strong> button</li>
+          <li>Sign up with your GitHub account, Google account, or email</li>
+          <li>Once signed in, click <strong>"New Project"</strong></li>
+          <li>Choose <strong>"Free plan"</strong></li>
+          <li>Fill in: Project name (e.g. "benefits-finder"), a database password (save this!), and choose a region close to Australia (e.g. <strong>Southeast Asia (Singapore)</strong>)</li>
+          <li>Click <strong>"Create new project"</strong> — takes about 2 minutes to set up</li>
+        </ol>
+      </div>
+
+      <div class="border rounded-xl p-4">
+        <h3 class="font-bold text-gray-700 mb-2">Step 2 — Create the database tables</h3>
+        <ol class="text-sm text-gray-600 space-y-2 list-decimal list-inside">
+          <li>In your Supabase project, look at the left sidebar and click <strong>"SQL Editor"</strong></li>
+          <li>Click <strong>"New query"</strong></li>
+          <li>Open the file <strong>schema.sql</strong> (in the same folder as this guide) in a text editor (Notepad on Windows, TextEdit on Mac)</li>
+          <li>Select all the text (Ctrl+A on Windows, Cmd+A on Mac) and copy it</li>
+          <li>Paste it into the Supabase SQL Editor</li>
+          <li>Click the green <strong>"Run"</strong> button (or press Ctrl+Enter)</li>
+          <li>You should see a success message at the bottom</li>
+        </ol>
+      </div>
+
+      <div class="border rounded-xl p-4 bg-yellow-50 border-yellow-300">
+        <h3 class="font-bold text-yellow-800 mb-2">Step 3 — Copy your Supabase credentials (IMPORTANT!)</h3>
+        <ol class="text-sm text-yellow-800 space-y-2 list-decimal list-inside">
+          <li>In Supabase, click <strong>"Project Settings"</strong> in the left sidebar (the gear icon ⚙️)</li>
+          <li>Click <strong>"API"</strong> in the settings menu</li>
+          <li>You'll see two important values — copy them both into a temporary notepad:
+            <ul class="list-disc list-inside ml-4 mt-1 space-y-1">
+              <li><strong>Project URL</strong> — looks like: <code class="bg-yellow-100 px-1 rounded">https://abcdefghij.supabase.co</code></li>
+              <li><strong>anon / public key</strong> — a very long string starting with "eyJ..."</li>
+            </ul>
+          </li>
+          <li>⚠️ Do NOT copy the "service_role" key — only the "anon public" key</li>
+        </ol>
+      </div>
+
+      <div class="border rounded-xl p-4">
+        <h3 class="font-bold text-gray-700 mb-2">Step 4 — Add your credentials to the app</h3>
+        <ol class="text-sm text-gray-600 space-y-2 list-decimal list-inside">
+          <li>Open the file <strong>index.html</strong> (in the same folder as this guide) in a text editor</li>
+          <li>Near the top of the file (around line 300), find these two lines:
+            <pre class="bg-gray-100 rounded p-2 mt-1 text-xs">const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';</pre>
+          </li>
+          <li>Replace <code class="bg-gray-100 px-1 rounded">YOUR_SUPABASE_URL</code> with your Project URL (keep the quotes)</li>
+          <li>Replace <code class="bg-gray-100 px-1 rounded">YOUR_SUPABASE_ANON_KEY</code> with your anon key (keep the quotes)</li>
+          <li>Save the file (Ctrl+S on Windows, Cmd+S on Mac)</li>
+        </ol>
+        <div class="mt-3 p-3 bg-gray-100 rounded-lg">
+          <p class="text-xs text-gray-600 font-medium">After editing, it should look like this:</p>
+          <pre class="text-xs text-gray-800 mt-1">const SUPABASE_URL = 'https://abcdefghij.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIs...(long string)';</pre>
+        </div>
+      </div>
+
+      <div class="border rounded-xl p-4">
+        <h3 class="font-bold text-gray-700 mb-2">Step 5 — Enable Email Magic Link sign-in</h3>
+        <ol class="text-sm text-gray-600 space-y-2 list-decimal list-inside">
+          <li>In Supabase, click <strong>"Authentication"</strong> in the left sidebar</li>
+          <li>Click <strong>"Providers"</strong></li>
+          <li>Make sure <strong>"Email"</strong> is enabled (it should be on by default)</li>
+          <li>Ensure <strong>"Confirm email"</strong> is turned ON — this enables magic links</li>
+          <li>Click <strong>"Save"</strong></li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+      <span class="w-7 h-7 bg-green-800 text-white rounded-full flex items-center justify-center text-sm font-bold">2</span>
+      Put the Files on GitHub
+    </h2>
+    <div class="space-y-4 mb-10">
+
+      <div class="border rounded-xl p-4">
+        <h3 class="font-bold text-gray-700 mb-2">Step 6 — Create a free GitHub account (if you don't have one)</h3>
+        <ol class="text-sm text-gray-600 space-y-2 list-decimal list-inside">
+          <li>Go to <a href="https://github.com" target="_blank" class="text-blue-600 underline font-medium">github.com</a></li>
+          <li>Click <strong>"Sign up"</strong> and create a free account</li>
+          <li>Verify your email address</li>
+        </ol>
+      </div>
+
+      <div class="border rounded-xl p-4">
+        <h3 class="font-bold text-gray-700 mb-2">Step 7 — Upload your files to GitHub</h3>
+        <ol class="text-sm text-gray-600 space-y-2 list-decimal list-inside">
+          <li>Once logged in to GitHub, click the <strong>"+"</strong> button in the top right corner</li>
+          <li>Select <strong>"New repository"</strong></li>
+          <li>Name it: <strong>benefits-finder</strong></li>
+          <li>Make sure it's set to <strong>"Public"</strong></li>
+          <li>Click <strong>"Create repository"</strong></li>
+          <li>On the next page, click <strong>"uploading an existing file"</strong> link</li>
+          <li>Drag and drop these 3 files from your computer:
+            <ul class="list-disc list-inside ml-4 mt-1">
+              <li><strong>index.html</strong> (the one you edited with your Supabase credentials)</li>
+              <li><strong>schema.sql</strong></li>
+              <li><strong>vercel.json</strong></li>
+            </ul>
+          </li>
+          <li>Click <strong>"Commit changes"</strong> (the green button at the bottom)</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+      <span class="w-7 h-7 bg-green-800 text-white rounded-full flex items-center justify-center text-sm font-bold">3</span>
+      Deploy Your Website (Vercel)
+    </h2>
+    <div class="space-y-4 mb-10">
+
+      <div class="border rounded-xl p-4">
+        <h3 class="font-bold text-gray-700 mb-2">Step 8 — Create a free Vercel account</h3>
+        <ol class="text-sm text-gray-600 space-y-2 list-decimal list-inside">
+          <li>Go to <a href="https://vercel.com" target="_blank" class="text-blue-600 underline font-medium">vercel.com</a></li>
+          <li>Click <strong>"Sign Up"</strong></li>
+          <li>Choose <strong>"Continue with GitHub"</strong> — this links your GitHub account automatically</li>
+          <li>Follow the prompts to authorise Vercel</li>
+        </ol>
+      </div>
+
+      <div class="border rounded-xl p-4">
+        <h3 class="font-bold text-gray-700 mb-2">Step 9 — Import your project</h3>
+        <ol class="text-sm text-gray-600 space-y-2 list-decimal list-inside">
+          <li>Once in Vercel, click <strong>"Add New Project"</strong></li>
+          <li>You'll see your GitHub repositories listed — click <strong>"Import"</strong> next to <strong>benefits-finder</strong></li>
+          <li>Leave all settings as default (Vercel will detect it's a static site)</li>
+          <li>Click the big <strong>"Deploy"</strong> button</li>
+          <li>Wait about 30 seconds — you'll see a success screen with confetti 🎉</li>
+          <li>Your website URL will be shown — something like <strong>benefits-finder.vercel.app</strong></li>
+        </ol>
+      </div>
+
+      <div class="border rounded-xl p-4">
+        <h3 class="font-bold text-gray-700 mb-2">Step 10 — Update Supabase with your website URL</h3>
+        <p class="text-sm text-gray-600 mb-2">This allows the email magic link to redirect back to your site.</p>
+        <ol class="text-sm text-gray-600 space-y-2 list-decimal list-inside">
+          <li>Copy your Vercel URL (e.g. <code class="bg-gray-100 px-1 rounded">https://benefits-finder.vercel.app</code>)</li>
+          <li>Go back to Supabase → <strong>Authentication</strong> → <strong>URL Configuration</strong></li>
+          <li>In <strong>"Site URL"</strong>, enter your Vercel URL</li>
+          <li>In <strong>"Redirect URLs"</strong>, add your Vercel URL with <code class="bg-gray-100 px-1 rounded">/**</code> at the end</li>
+          <li>Click <strong>"Save"</strong></li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Done -->
+    <div class="bg-green-50 border-2 border-green-300 rounded-2xl p-6 text-center">
+      <div class="text-4xl mb-3">🎉</div>
+      <h2 class="text-xl font-extrabold text-green-800 mb-2">You're Live!</h2>
+      <p class="text-green-700 text-sm">Your BenefitsFinder website is now live on the internet. Anyone can visit your Vercel URL, complete the quiz, and track their benefits claims — with all data securely saved to your database.</p>
+      <div class="mt-4 text-sm text-green-700">
+        <strong>To make changes:</strong> Edit index.html → upload to GitHub → Vercel auto-deploys in 30 seconds.
+      </div>
+    </div>
+
+    <div class="mt-8 p-4 bg-gray-100 rounded-xl text-xs text-gray-500">
+      <strong>Troubleshooting:</strong> If magic links don't work, double-check your Supabase Site URL. If data doesn't save, ensure your SUPABASE_URL and SUPABASE_ANON_KEY are correctly entered in index.html. The app works in "demo mode" (saves to browser only) if Supabase is not configured.
+    </div>
+
+  </div>
+</body>
+</html>
